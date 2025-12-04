@@ -3,13 +3,19 @@ function getCardHTML(pokemonDetails) {
   const capitalizedName =
     pokemonDetails.name.charAt(0).toUpperCase() + pokemonDetails.name.slice(1);
   return `
-      <section class="contentStyle" onclick="showPokemonDetails(${pokemonDetails.id})">
+      <section class="contentStyle" onclick="showPokemonDetails(${
+        pokemonDetails.id
+      })">
           <div>
               <h2>${capitalizedName}</h2>
               <p>#${pokemonDetails.id}</p>
-              <div class="types-container">${getTypesHTML(pokemonDetails.types)}</div>
+              <div class="types-container">${getTypesHTML(
+                pokemonDetails.types
+              )}</div>
           </div>
-          <img src="${pokemonDetails.sprites.other["official-artwork"].front_default}" alt="${pokemonDetails.name}">
+          <img src="${
+            pokemonDetails.sprites.other["official-artwork"].front_default
+          }" alt="${pokemonDetails.name}">
       </section>
       `;
 }
@@ -19,23 +25,8 @@ function getPokemonDetailHTML(pokemon, types, abilities) {
   return `
     <div class="pokemon-detail-view">
       <div class="detail-header">
-        <button class="nav-btn prev-btn" onclick="navigateToPrevious(${
-          pokemon.id
-        })" ${pokemon.id <= 1 ? "disabled" : ""}>
-          ← Previous
-        </button>
-        <div class="detail-title">
-          <h2>${pokemon.name.toUpperCase()}</h2>
-          <span class="pokemon-id">#${String(pokemon.id).padStart(
-            3,
-            "0"
-          )}</span>
-        </div>
-        <button class="nav-btn next-btn" onclick="navigateToNext(${
-          pokemon.id
-        })" ${pokemon.id >= 151 ? "disabled" : ""}>
-          Next →
-        </button>
+        <h2>${pokemon.name.toUpperCase()}</h2>
+        <span class="pokemon-id">#${String(pokemon.id).padStart(3, "0")}</span>
       </div>
       
       <div class="detail-content">
@@ -76,6 +67,19 @@ function getPokemonDetailHTML(pokemon, types, abilities) {
             </div>
           </div>
         </div>
+      </div>
+      
+      <div class="detail-footer">
+        <button class="nav-btn prev-btn" onclick="navigateToPrevious(${
+          pokemon.id
+        })" ${pokemon.id <= 1 ? "disabled" : ""}>
+          ← Previous
+        </button>
+        <button class="nav-btn next-btn" onclick="navigateToNext(${
+          pokemon.id
+        })" ${pokemon.id >= 151 ? "disabled" : ""}>
+          Next →
+        </button>
       </div>
     </div>
   `;

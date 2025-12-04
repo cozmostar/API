@@ -4,12 +4,14 @@ let currentOffset = 0;
 const limit = 20;
 let isLoading = false;
 let allPokemonLoaded = false;
+let allPokemon = [];
 
 // INITIALISIERUNG
 function init() {
   renderCards();
   setupInfiniteScroll();
   setupModal();
+  setupSearch();
 }
 
 // POKEMON KARTEN - HAUPT-RENDERING
@@ -45,6 +47,7 @@ async function renderPokemonList(pokemonList) {
 async function renderSinglePokemon(pokemon) {
   const detailResponse = await fetch(pokemon.url);
   const pokemonDetails = await detailResponse.json();
+  allPokemon.push(pokemonDetails);
   const html = getCardHTML(pokemonDetails);
   content.innerHTML += html;
 }
@@ -134,6 +137,57 @@ function navigateToPrevious(currentId) {
 function navigateToNext(currentId) {
   if (currentId < 151) {
     showPokemonDetails(currentId + 1);
+  }
+}
+
+// SEARCH FUNCTIONALITY
+function setupSearch() {
+  const searchInput = document.getElementById("search-input");
+  searchInput.addEventListener("input", handleSearch);
+}
+
+function handleSearch(event) {
+  const searchTerm = event.target.value.toLowerCase().trim();
+
+  if (searchTerm.length === 0) {
+    displayAllPokemon();
+  } else if (searchTerm.length >= 3) {
+    filterPokemon(searchTerm);
+  }
+}
+
+function filterPokemon(searchTerm) {
+  content.innerHTML = "";
+
+  if (allPokemon.length === 0) {
+    content.innerHTML = '<p class="loading">Loading Pokemon data...</p>';
+    return;
+  }
+
+  const filtered = allPokemon.filter(function (pokemon) {
+    return pokemon.name.toLowerCase().includes(searchTerm);
+  });
+
+  if (filtered.length === 0) {
+    content.innerHTML =
+      '<p class="loading">No Pokemon found matching "' + searchTerm + '"</p>';
+    return;
+  }
+
+  for (let i = 0; i < filtered.length; i++) {
+    content.innerHTML += getCardHTML(filtered[i]);
+  }
+}
+
+function displayAllPokemon() {
+  content.innerHTML = "";
+
+  if (allPokemon.length === 0) {
+    return;
+  }
+
+  for (let i = 0; i < allPokemon.length; i++) {
+    content.innerHTML += getCardHTML(allPokemon[i]);
   }
 }
 
