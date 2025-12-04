@@ -28,14 +28,63 @@
 }
 
 body {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #ffffff;
   min-height: 100vh;
-  padding: 20px;
+  padding: 0;
+  padding-top: 100px;
 }
+
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 15px 20px;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-logo {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+}
+
+.search-container {
+  flex: 1;
+  max-width: 500px;
+}
+
+#search-input {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 20px;
+}
+
+#pokedex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  padding: 20px 0;
 }
 
 h1 {
@@ -168,119 +217,7 @@ h1 {
   }
 }
 
-/* Pokemon Type Utility Classes */
-.type-normal {
-  background-color: var(--type-normal);
-}
-.type-fire {
-  background-color: var(--type-fire);
-}
-.type-water {
-  background-color: var(--type-water);
-}
-.type-electric {
-  background-color: var(--type-electric);
-}
-.type-grass {
-  background-color: var(--type-grass);
-}
-.type-ice {
-  background-color: var(--type-ice);
-}
-.type-fighting {
-  background-color: var(--type-fighting);
-}
-.type-poison {
-  background-color: var(--type-poison);
-}
-.type-ground {
-  background-color: var(--type-ground);
-}
-.type-flying {
-  background-color: var(--type-flying);
-}
-.type-psychic {
-  background-color: var(--type-psychic);
-}
-.type-bug {
-  background-color: var(--type-bug);
-}
-.type-rock {
-  background-color: var(--type-rock);
-}
-.type-ghost {
-  background-color: var(--type-ghost);
-}
-.type-dragon {
-  background-color: var(--type-dragon);
-}
-.type-dark {
-  background-color: var(--type-dark);
-}
-.type-steel {
-  background-color: var(--type-steel);
-}
-.type-fairy {
-  background-color: var(--type-fairy);
-}
 
-/* Pokemon Type Border Classes */
-.border-normal {
-  border-color: var(--type-normal);
-}
-.border-fire {
-  border-color: var(--type-fire);
-}
-.border-water {
-  border-color: var(--type-water);
-}
-.border-electric {
-  border-color: var(--type-electric);
-}
-.border-grass {
-  border-color: var(--type-grass);
-}
-.border-ice {
-  border-color: var(--type-ice);
-}
-.border-fighting {
-  border-color: var(--type-fighting);
-}
-.border-poison {
-  border-color: var(--type-poison);
-}
-.border-ground {
-  border-color: var(--type-ground);
-}
-.border-flying {
-  border-color: var(--type-flying);
-}
-.border-psychic {
-  border-color: var(--type-psychic);
-}
-.border-bug {
-  border-color: var(--type-bug);
-}
-.border-rock {
-  border-color: var(--type-rock);
-}
-.border-ghost {
-  border-color: var(--type-ghost);
-}
-.border-dragon {
-  border-color: var(--type-dragon);
-}
-.border-dark {
-  border-color: var(--type-dark);
-}
-.border-steel {
-  border-color: var(--type-steel);
-}
-.border-fairy {
-  border-color: var(--type-fairy);
-}
-
-/* Pokemon Type Badge Style */
 .type-badge {
   display: inline-block;
   padding: 6px 14px;
