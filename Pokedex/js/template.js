@@ -1,23 +1,41 @@
 // POKEMON KARTEN TEMPLATE
 function getCardHTML(pokemonDetails) {
+  const capitalizedName =
+    pokemonDetails.name.charAt(0).toUpperCase() + pokemonDetails.name.slice(1);
   return `
       <section class="contentStyle" onclick="showPokemonDetails(${pokemonDetails.id})">
           <div>
-              <h2>${pokemonDetails.name}</h2>
+              <h2>${capitalizedName}</h2>
               <p>#${pokemonDetails.id}</p>
-            </div>
+              <div class="types-container">${getTypesHTML(pokemonDetails.types)}</div>
+          </div>
           <img src="${pokemonDetails.sprites.other["official-artwork"].front_default}" alt="${pokemonDetails.name}">
       </section>
       `;
 }
 
 // POKEMON DETAIL TEMPLATE
-function getPokemonDetailHTML(pokemon, description, types, abilities) {
+function getPokemonDetailHTML(pokemon, types, abilities) {
   return `
     <div class="pokemon-detail-view">
       <div class="detail-header">
-        <h2>${pokemon.name.toUpperCase()}</h2>
-        <span class="pokemon-id">#${String(pokemon.id).padStart(3, "0")}</span>
+        <button class="nav-btn prev-btn" onclick="navigateToPrevious(${
+          pokemon.id
+        })" ${pokemon.id <= 1 ? "disabled" : ""}>
+          ← Previous
+        </button>
+        <div class="detail-title">
+          <h2>${pokemon.name.toUpperCase()}</h2>
+          <span class="pokemon-id">#${String(pokemon.id).padStart(
+            3,
+            "0"
+          )}</span>
+        </div>
+        <button class="nav-btn next-btn" onclick="navigateToNext(${
+          pokemon.id
+        })" ${pokemon.id >= 151 ? "disabled" : ""}>
+          Next →
+        </button>
       </div>
       
       <div class="detail-content">
@@ -29,35 +47,30 @@ function getPokemonDetailHTML(pokemon, description, types, abilities) {
         
         <div class="detail-info">
           <div class="info-section">
-            <h3>Beschreibung</h3>
-            <p>${description}</p>
-          </div>
-          
-          <div class="info-section">
-            <h3>Typ</h3>
+            <h3>Type</h3>
             <div class="types-container">${types}</div>
           </div>
           
           <div class="info-section">
-            <h3>Eigenschaften</h3>
+            <h3>Properties</h3>
             <div class="stats-grid">
               <div class="stat-item">
-                <span class="stat-label">Größe:</span>
+                <span class="stat-label">Height:</span>
                 <span class="stat-value">${pokemon.height / 10} m</span>
               </div>
               <div class="stat-item">
-                <span class="stat-label">Gewicht:</span>
+                <span class="stat-label">Weight:</span>
                 <span class="stat-value">${pokemon.weight / 10} kg</span>
               </div>
               <div class="stat-item">
-                <span class="stat-label">Fähigkeiten:</span>
+                <span class="stat-label">Abilities:</span>
                 <span class="stat-value">${abilities}</span>
               </div>
             </div>
           </div>
           
           <div class="info-section">
-            <h3>Statuswerte</h3>
+            <h3>Stats</h3>
             <div class="stats-bars">
               ${getStatsHTML(pokemon.stats)}
             </div>
@@ -76,7 +89,7 @@ function getStatsHTML(stats) {
     let stat = stats[i];
     html += `
       <div class="stat-bar-container">
-        <span class="stat-name">${translateStatName(stat.stat.name)}</span>
+        <span class="stat-name">${stat.stat.name}</span>
         <div class="stat-bar-bg">
           <div class="stat-bar-fill" style="width: ${Math.min(
             stat.base_stat / 2,
@@ -88,19 +101,6 @@ function getStatsHTML(stats) {
     `;
   }
   return html;
-}
-
-// Statuswerte Übersetzung
-function translateStatName(statName) {
-  const translations = {
-    hp: "HP",
-    attack: "Angriff",
-    defense: "Verteidigung",
-    "special-attack": "Spez. Angriff",
-    "special-defense": "Spez. Verteidigung",
-    speed: "Initiative",
-  };
-  return translations[statName] || statName;
 }
 
 // Pokemon Typen

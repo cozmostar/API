@@ -29,7 +29,7 @@ async function renderCards() {
     await renderPokemonList(data.results);
     updatePaginationState();
   } catch (error) {
-    console.error("Fehler beim Laden der Pokemon:", error);
+    console.error("Error loading Pokemon:", error);
   } finally {
     isLoading = false;
     hideLoadingIndicator();
@@ -79,28 +79,23 @@ async function showPokemonDetails(pokemonId) {
 
   try {
     const pokemon = await fetchPokemonById(pokemonId);
-    const description = await fetchPokemonDescription(pokemon);
-    displayPokemonDetails(modalBody, pokemon, description);
+    displayPokemonDetails(modalBody, pokemon);
   } catch (error) {
-    console.error("Fehler beim Laden der Pokemon-Details:", error);
-    modalBody.innerHTML = '<p class="error">Fehler beim Laden der Details.</p>';
+    console.error("Error loading Pokemon details:", error);
+    modalBody.innerHTML = '<p class="error">Error loading details.</p>';
   }
 }
 
 function showModalLoading(modalBody, modal) {
-  modalBody.innerHTML = '<div class="loading">Lade Details...</div>';
+  modalBody.innerHTML = '<div class="loading">Loading Details...</div>';
   modal.style.display = "block";
+  document.body.style.overflow = "hidden";
 }
 
-function displayPokemonDetails(modalBody, pokemon, description) {
+function displayPokemonDetails(modalBody, pokemon) {
   const types = getTypesHTML(pokemon.types);
   const abilities = getAbilitiesText(pokemon.abilities);
-  modalBody.innerHTML = getPokemonDetailHTML(
-    pokemon,
-    description,
-    types,
-    abilities
-  );
+  modalBody.innerHTML = getPokemonDetailHTML(pokemon, types, abilities);
 }
 
 // POKEMON DETAILS - API CALLS
@@ -111,21 +106,6 @@ async function fetchPokemonById(pokemonId) {
   return await response.json();
 }
 
-async function fetchPokemonDescription(pokemon) {
-  const speciesResponse = await fetch(pokemon.species.url);
-  const species = await speciesResponse.json();
-  const germanEntry = findGermanDescription(species.flavor_text_entries);
-  return germanEntry
-    ? germanEntry.flavor_text
-    : species.flavor_text_entries[0].flavor_text;
-}
-
-function findGermanDescription(entries) {
-  return entries.find(function (entry) {
-    return entry.language.name === "de";
-  });
-}
-
 // MODAL SETUP
 function setupModal() {
   const modal = document.getElementById("pokemon-modal");
@@ -133,13 +113,28 @@ function setupModal() {
 
   closeBtn.onclick = function () {
     modal.style.display = "none";
+    document.body.style.overflow = "auto";
   };
 
   window.onclick = function (event) {
     if (event.target === modal) {
       modal.style.display = "none";
+      document.body.style.overflow = "auto";
     }
   };
+}
+
+// POKEMON NAVIGATION
+function navigateToPrevious(currentId) {
+  if (currentId > 1) {
+    showPokemonDetails(currentId - 1);
+  }
+}
+
+function navigateToNext(currentId) {
+  if (currentId < 151) {
+    showPokemonDetails(currentId + 1);
+  }
 }
 
 // INFINITE SCROLL
@@ -162,7 +157,7 @@ function showLoadingIndicator() {
   const loadingDiv = document.createElement("div");
   loadingDiv.id = "loading-indicator";
   loadingDiv.className = "loading";
-  loadingDiv.textContent = "Lade Pokemon...";
+  loadingDiv.textContent = "Loading Pokemon...";
   document.body.appendChild(loadingDiv);
 }
 
