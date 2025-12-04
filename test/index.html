@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokedex</title>
+    <script src="js/template.js" defer></script>
+    <script src="js/script.js" defer></script>
+    <link rel="icon" type="image/png" href="img/pokeball.png>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/cards.css" />
+    <link rel="stylesheet" href="css/font.css" />
+  </head>
+
+  <body onload="init()">
+    <header class="main-header">
+      <div class="header-content">
+        <img src="img/logo.png" alt="Pokédex Logo" class="header-logo" />
+        <div class="search-container">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search Pokemon..."
+            minlength="3"
+          />
+          <button id="search-btn" onclick="searchPokemon()">Search</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div id="pokedex-grid" class="pokedex-grid"></div>
+      <div id="loading" class="loading-spinner" style="display: none">
+        <div class="spinner"></div>
+        <p>Loading Pokemon...</p>
+      </div>
+      <button
+        id="load-more-btn"
+        class="load-more-btn"
+        onclick="loadMorePokemon()"
+      >
+        Load More Pokemon
+      </button>
+    </main>
+
+    <div id="pokemon-modal" class="modal" onclick="closeModalOnOverlay(event)">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <button class="modal-nav prev-btn" onclick="previousPokemon()">
+          &#10094;
+        </button>
+        <div id="modal-body"></div>
+        <button class="modal-nav next-btn" onclick="nextPokemon()">
+          &#10095;
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
